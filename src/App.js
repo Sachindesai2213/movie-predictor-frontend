@@ -13,12 +13,14 @@ function App() {
     const [movieVideo, setMovieVideo] = useState({});
     const [movieCast, setMovieCast] = useState([]);
     const [recommendations, setRecommendations] = useState([]);
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         console.log("Exceuted");
     }, [selectedMovie]);
 
     const submitMovieHandler = async () => {
+        setIsLoading(true)
         let data = {
             movie_name: movie,
             number_of_recommendations: 10,
@@ -36,6 +38,7 @@ function App() {
             setMovieVideo(video_response.data.results[0]);
             setMovieCast(cast_response.data.cast.slice(0, 8));
         }
+        setIsLoading(false)
     };
 
     return (
@@ -45,6 +48,8 @@ function App() {
                 setMovie={setMovie}
                 submitMovieHandler={submitMovieHandler}
                 movie={movie}
+                isLoading={isLoading}
+                setIsLoading={setIsLoading}
             />
             <MovieDetails movie={selectedMovie} video={movieVideo} />
             <MovieCast cast={movieCast} />

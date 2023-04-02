@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import movies from "../../movies.json";
 
-const MovieSearch = ({ movie, setMovie, submitMovieHandler }) => {
+const MovieSearch = ({ movie, setMovie, submitMovieHandler, isLoading }) => {
     const [suggestions, setSuggestions] = useState([]);
 
     const onSuggestionHandler = (value) => {
@@ -41,15 +41,16 @@ const MovieSearch = ({ movie, setMovie, submitMovieHandler }) => {
             <button
                 onClick={() => submitMovieHandler()}
                 className="bg-gray-600 rounded-md text-white px-4 py-2"
+                disabled={isLoading}
             >
-                Get Data and Recommendations
+                {!isLoading ? "Get Data and Recommendations" : "Fetching ..."}
             </button>
             {suggestions && (
                 <div className="absolute z-10 top-16 w-1/4 bg-black rounded-md border-4">
                     {suggestions.map((suggestion, key) => {
                         return (
                             <div
-                                className="bg-white color-black border-2 rounded-sm p-[8px] text-center hover:bg-gray-200"
+                                className="cursor-pointer bg-white color-black border-2 rounded-sm p-[8px] text-center hover:bg-gray-200"
                                 onClick={() =>
                                     onSuggestionHandler(suggestion.title)
                                 }
